@@ -7,7 +7,7 @@ import (
 	"os"
 	"path"
 
-	"github.com/JaloMu/tools"
+	"github.com/JaloMu/tools/utils"
 
 	"github.com/tidwall/gjson"
 )
@@ -22,16 +22,16 @@ var l *Locale
 func New(dir string) (err error) {
 	var zhLocaleFile = path.Join(dir, "zh.json")
 	var enLocaleFile = path.Join(dir, "en.json")
-	if !tools.IsExist(zhLocaleFile) {
+	if !utils.IsExist(zhLocaleFile) {
 		return errors.New("locale file is not exist")
 	}
-	if !tools.IsFile(zhLocaleFile) {
+	if !utils.IsFile(zhLocaleFile) {
 		return errors.New("locale file is not file")
 	}
-	if !tools.IsExist(enLocaleFile) {
+	if !utils.IsExist(enLocaleFile) {
 		return errors.New("locale file is not exist")
 	}
-	if !tools.IsFile(enLocaleFile) {
+	if !utils.IsFile(enLocaleFile) {
 		return errors.New("locale file is not file")
 	}
 	zhFile, err := os.Open(zhLocaleFile)
