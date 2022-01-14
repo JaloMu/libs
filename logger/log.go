@@ -9,6 +9,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/JaloMu/libs/response"
+
 	"github.com/gin-gonic/gin"
 
 	"go.uber.org/zap"
@@ -40,7 +42,6 @@ func InitLogger(cfg *LogConfig) (err error) {
 		return
 	}
 	core := zapcore.NewCore(encoder, writeSyncer, l)
-
 	lg = zap.New(core, zap.AddCaller())
 	zap.ReplaceGlobals(lg)
 	return
@@ -132,7 +133,7 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 						zap.String("request", string(httpRequest)),
 					)
 					// If the connection is dead, we can't write a status to it.
-					c.Error(err.(error)) // nolint: errcheck
+					response.Json(c, "trace", "http.5xx", err)
 					c.Abort()
 					return
 				}
