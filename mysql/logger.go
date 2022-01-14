@@ -82,7 +82,10 @@ func (l Logger) Trace(ctx context.Context, begin time.Time, fc func() (string, i
 		return
 	}
 	tr := ctx.Value(l.TraceKey)
-	traceContext, _ := tr.(*trace.TraceContext)
+	traceContext, ok := tr.(*trace.TraceContext)
+	if !ok {
+		traceContext = &trace.TraceContext{}
+	}
 	elapsed := time.Since(begin)
 	switch {
 	case err != nil && l.LogLevel >= gormLogger.Error:

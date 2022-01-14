@@ -16,10 +16,11 @@ type Options struct {
 	MaxIdle       int           `json:"max_idle"`
 	L             *zap.Logger   `json:"l"`
 	Namespace     string        `json:"namespace"`
+	TraceKey      string        `json:"trace_key"`
 }
 
 func InitOrmMysql(d Options) (engine *gorm.DB, err error) {
-	var l = New(d.L.Named(d.Namespace), "trace")
+	var l = New(d.L.Named(d.Namespace), d.TraceKey)
 	l.SetAsDefault()
 	var gc = gorm.Config{
 		NowFunc: func() time.Time {
